@@ -1,5 +1,6 @@
 import { ID, Int, PartialBoolean } from "../types";
-import { assertHasField } from "../utils";
+import { assertHasField, assertID } from "../utils";
+import { CONNECTION_ENTITY_QUERIES } from "./connection_queries";
 
 export type Variables = { [key: string]: any };
 
@@ -41,6 +42,48 @@ export abstract class AbstractClient {
       },
       name
     );
+  }
+
+  protected _byId<T>(id: ID, fields: PartialBoolean<T>, name: string) {
+    assertID(id);
+    assertHasField(fields);
+
+    const query = `
+      query TFGridGqlClientByIdQuery($id: ID!) {
+        ${name}(id: $id) {
+          ${AbstractClient.normalizeFields(fields)}
+        }
+      }
+    `;
+    return this._request<T>(query, { id }, name);
+  }
+
+  protected _connection<T>(
+    fields: PartialBoolean<T>,
+    options: any,
+    name: string
+  ) {
+    assertHasField(fields);
+
+    const entity = CONNECTION_ENTITY_QUERIES[name];
+    const query = `
+      query TFGridGqlClient${entity}ConnectionQuery(
+        $after: String,
+        $first: Int,
+        $orderBy: [${entity}OrderByInput!]!,
+        $where: ${entity}WhereInput
+      ) {
+        ${name}(
+          after: $after,
+          first: $first,
+          orderBy: $orderBy,
+          where: $where
+        ) {
+          ${AbstractClient.normalizeFields(fields)}
+        }
+      }
+    `;
+    return this._request<T>(query, options, name);
   }
 
   private static normalizeFields<T>(fields: PartialBoolean<T>): string {

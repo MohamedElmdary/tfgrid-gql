@@ -21,6 +21,12 @@ export function assertHasField(fields: any): AssertReturn {
   }
 }
 
+export function assertID(value: any): AssertReturn {
+  if (value === "" || value === undefined || value === null) {
+    panic(`Expected a valid [ID] but got [${value}].`);
+  }
+}
+
 /**
  * @description
  * Guards
