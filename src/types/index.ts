@@ -58,6 +58,14 @@ export type BoolWhere<N extends string> = {
   [K in __BoolWhere as K extends string ? `${N}_${K}` : K]?: boolean;
 };
 
+export type FitType<T, R> = {
+  [K in keyof T]: K extends keyof R
+    ? T[K] extends object
+      ? FitType<T[K], R[K]>
+      : R[K]
+    : unknown;
+};
+
 export interface Account {
   id: ID;
   wallet: string;

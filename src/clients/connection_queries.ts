@@ -1,4 +1,4 @@
-import { Int, PartialBoolean } from "../types";
+import { FitType, Int, PartialBoolean } from "../types";
 import { ByArray } from "./abstract_client";
 import { ListQueries } from "./list_queries";
 
@@ -90,16 +90,21 @@ type G<T> = T extends ByArray<infer O, infer W>
 export type ConnectionQueries = {
   [K in keyof ListQueries as K extends keyof typeof CONNECTION_QUERIES
     ? typeof CONNECTION_QUERIES[K]
-    : K]: (
-    fields: PartialBoolean<
+    : K]: <
+    T extends PartialBoolean<
       __Connection<
         ReturnType<ListQueries[K]> extends Promise<Array<infer Q>> ? Q : unknown
       >
-    >,
+    >
+  >(
+    fields: T,
     options: G<Parameters<ListQueries[K]>[1]>
   ) => Promise<
-    __Connection<
-      ReturnType<ListQueries[K]> extends Promise<Array<infer Q>> ? Q : unknown
+    FitType<
+      T,
+      __Connection<
+        ReturnType<ListQueries[K]> extends Promise<Array<infer Q>> ? Q : unknown
+      >
     >
   >;
 };

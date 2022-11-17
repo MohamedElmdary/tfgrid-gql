@@ -39,6 +39,7 @@ import {
   DiscountLevel,
   FarmCertification,
   ContractState,
+  FitType,
 } from "../types";
 import { ByArray } from "./abstract_client";
 
@@ -285,31 +286,31 @@ interface Where {
 
 // prettier-ignore
 export interface ListQueries {
-  nodes(fields: PartialBoolean<Node>, options?: ByArray<OrderBy["Node"], Where["Node"]>): Promise<Node[]>;
-  accounts(fields: PartialBoolean<Account>,options?: ByArray<OrderBy["Account"], Where["Account"]>): Promise<Account[]>;
-  burnTransactions(fields: PartialBoolean<BurnTransaction>,options?: ByArray<OrderBy["BurnTransaction"], Where["BurnTransaction"]>): Promise<BurnTransaction[]>;
-  cities(fields: PartialBoolean<City>, options?: ByArray<OrderBy["City"], Where["City"]>): Promise<City[]>;
-  contractBillReports(fields: PartialBoolean<ContractBillReport>,options?: ByArray<OrderBy["ContractBillReport"], Where["ContractBillReport"]>): Promise<ContractBillReport[]>;
-  contractResources(fields: PartialBoolean<ContractResources>,options?: ByArray<OrderBy["ContractResources"], Where["ContractResources"]>): Promise<ContractResources[]>;
-  countries(fields: PartialBoolean<Country>,options?: ByArray<OrderBy["Country"], Where["Country"]>): Promise<Country[]>;
-  entityProofs(fields: PartialBoolean<EntityProof>,options?: ByArray<OrderBy["EntityProof"], Where["EntityProof"]>): Promise<EntityProof[]>;
-  farmingPolicies(fields: PartialBoolean<FarmingPolicy>,options?: ByArray<OrderBy["FarmingPolicy"], Where["FarmingPolicy"]>): Promise<FarmingPolicy[]>;
-  farms(fields: PartialBoolean<Farm>, options?: ByArray<OrderBy["Farm"], Where["Farm"]>): Promise<Farm[]>;
-  historicalBalances(fields: PartialBoolean<HistoricalBalance>,options?: ByArray<OrderBy["HistoricalBalance"], Where["HistoricalBalance"]>): Promise<HistoricalBalance[]>;
-  interfaces(fields: PartialBoolean<Interfaces>,options?: ByArray<OrderBy["Interfaces"], Where["Interfaces"]>): Promise<Interfaces[]>;
-  locations(fields: PartialBoolean<Location>,options?: ByArray<OrderBy["Location"], Where["Location"]>): Promise<Location[]>;
-  mintTransactions(fields: PartialBoolean<MintTransaction>,options?: ByArray<OrderBy["MintTransaction"], Where["MintTransaction"]>): Promise<MintTransaction[]>;
-  nameContracts(fields: PartialBoolean<NameContract>,options?: ByArray<OrderBy["NameContract"], Where["NameContract"]>): Promise<NameContract[]>;
-  nodeContracts(fields: PartialBoolean<NodeContract>,options?: ByArray<OrderBy["NodeContract"], Where["NodeContract"]>): Promise<NodeContract[]>;
-  nodeResourcesTotals(fields: PartialBoolean<NodeResourcesTotal>,options?: ByArray<OrderBy["NodeResourcesTotal"], Where["NodeResourcesTotal"]>): Promise<NodeResourcesTotal[]>;
-  nruConsumptions(fields: PartialBoolean<NruConsumption>,options?: ByArray<OrderBy["NruConsumption"], Where["NruConsumption"]>): Promise<NruConsumption[]>;
-  pricingPolicies(fields: PartialBoolean<PricingPolicy>,options?: ByArray<OrderBy["PricingPolicy"], Where["PricingPolicy"]>): Promise<PricingPolicy[]>;
-  publicConfigs(fields: PartialBoolean<PublicConfig>,options?: ByArray<OrderBy["PublicConfig"], Where["PublicConfig"]>): Promise<PublicConfig[]>;
-  publicIps(fields: PartialBoolean<PublicIp>,options?: ByArray<OrderBy["PublicIp"], Where["PublicIp"]>): Promise<PublicIp[]>;
-  refundTransactions(fields: PartialBoolean<RefundTransaction>,options?: ByArray<OrderBy["RefundTransaction"], Where["RefundTransaction"]>): Promise<RefundTransaction[]>;
-  rentContracts(fields: PartialBoolean<RentContract>,options?: ByArray<OrderBy["RentContract"], Where["RentContract"]>): Promise<RentContract[]>;
-  solutionProviders(fields: PartialBoolean<SolutionProvider>,options?: ByArray<OrderBy["SolutionProvider"], Where["SolutionProvider"]>): Promise<SolutionProvider[]>;
-  transfers(fields: PartialBoolean<Transfer>,options?: ByArray<OrderBy["Transfer"], Where["Transfer"]>): Promise<Transfer[]>;
-  twins(fields: PartialBoolean<Twin>, options?: ByArray<OrderBy["Twin"], Where["Twin"]>): Promise<Twin[]>;
-  uptimeEvents(fields: PartialBoolean<UptimeEvent>,options?: ByArray<OrderBy["UptimeEvent"], Where["UptimeEvent"]>): Promise<UptimeEvent[]>;
+  nodes<T extends PartialBoolean<Node>>(fields: T, options?: ByArray<OrderBy["Node"], Where["Node"]>): Promise<FitType<T, Node>[]>;
+  accounts<T extends PartialBoolean<Account>>(fields: T,options?: ByArray<OrderBy["Account"], Where["Account"]>): Promise<FitType<T, Account>[]>;
+  burnTransactions<T extends PartialBoolean<BurnTransaction>>(fields: T,options?: ByArray<OrderBy["BurnTransaction"], Where["BurnTransaction"]>): Promise<FitType<T, BurnTransaction>[]>;
+  cities<T extends PartialBoolean<City>>(fields: T, options?: ByArray<OrderBy["City"], Where["City"]>): Promise<FitType<T, City>[]>;
+  contractBillReports<T extends PartialBoolean<ContractBillReport>>(fields: T,options?: ByArray<OrderBy["ContractBillReport"], Where["ContractBillReport"]>): Promise<FitType<T, ContractBillReport>[]>;
+  contractResources<T extends PartialBoolean<ContractResources>>(fields: T,options?: ByArray<OrderBy["ContractResources"], Where["ContractResources"]>): Promise<FitType<T, ContractResources>[]>;
+  countries<T extends PartialBoolean<Country>>(fields: T,options?: ByArray<OrderBy["Country"], Where["Country"]>): Promise<FitType<T, Country>[]>;
+  entityProofs<T extends PartialBoolean<EntityProof>>(fields: T,options?: ByArray<OrderBy["EntityProof"], Where["EntityProof"]>): Promise<FitType<T, EntityProof>[]>;
+  farmingPolicies<T extends PartialBoolean<FarmingPolicy>>(fields: T,options?: ByArray<OrderBy["FarmingPolicy"], Where["FarmingPolicy"]>): Promise<FitType<T, FarmingPolicy>[]>;
+  farms<T extends PartialBoolean<Farm>>(fields: T, options?: ByArray<OrderBy["Farm"], Where["Farm"]>): Promise<FitType<T, Farm>[]>;
+  historicalBalances<T extends PartialBoolean<HistoricalBalance>>(fields: T,options?: ByArray<OrderBy["HistoricalBalance"], Where["HistoricalBalance"]>): Promise<FitType<T, HistoricalBalance>[]>;
+  interfaces<T extends PartialBoolean<Interfaces>>(fields: T,options?: ByArray<OrderBy["Interfaces"], Where["Interfaces"]>): Promise<FitType<T, Interfaces>[]>;
+  locations<T extends PartialBoolean<Location>>(fields: T,options?: ByArray<OrderBy["Location"], Where["Location"]>): Promise<FitType<T, Location>[]>;
+  mintTransactions<T extends PartialBoolean<MintTransaction>>(fields: T,options?: ByArray<OrderBy["MintTransaction"], Where["MintTransaction"]>): Promise<FitType<T, MintTransaction>[]>;
+  nameContracts<T extends PartialBoolean<NameContract>>(fields: T,options?: ByArray<OrderBy["NameContract"], Where["NameContract"]>): Promise<FitType<T, NameContract>[]>;
+  nodeContracts<T extends PartialBoolean<NodeContract>>(fields: T,options?: ByArray<OrderBy["NodeContract"], Where["NodeContract"]>): Promise<FitType<T, NodeContract>[]>;
+  nodeResourcesTotals<T extends PartialBoolean<NodeResourcesTotal>>(fields: T,options?: ByArray<OrderBy["NodeResourcesTotal"], Where["NodeResourcesTotal"]>): Promise<FitType<T, NodeResourcesTotal>[]>;
+  nruConsumptions<T extends PartialBoolean<NruConsumption>>(fields: T,options?: ByArray<OrderBy["NruConsumption"], Where["NruConsumption"]>): Promise<FitType<T, NruConsumption>[]>;
+  pricingPolicies<T extends PartialBoolean<PricingPolicy>>(fields: T,options?: ByArray<OrderBy["PricingPolicy"], Where["PricingPolicy"]>): Promise<FitType<T, PricingPolicy>[]>;
+  publicConfigs<T extends PartialBoolean<PublicConfig>>(fields: T,options?: ByArray<OrderBy["PublicConfig"], Where["PublicConfig"]>): Promise<FitType<T, PublicConfig>[]>;
+  publicIps<T extends PartialBoolean<PublicIp>>(fields: T,options?: ByArray<OrderBy["PublicIp"], Where["PublicIp"]>): Promise<FitType<T, PublicIp>[]>;
+  refundTransactions<T extends PartialBoolean<RefundTransaction>>(fields: T,options?: ByArray<OrderBy["RefundTransaction"], Where["RefundTransaction"]>): Promise<FitType<T, RefundTransaction>[]>;
+  rentContracts<T extends PartialBoolean<RentContract>>(fields: T,options?: ByArray<OrderBy["RentContract"], Where["RentContract"]>): Promise<FitType<T, RentContract>[]>;
+  solutionProviders<T extends PartialBoolean<SolutionProvider>>(fields: T,options?: ByArray<OrderBy["SolutionProvider"], Where["SolutionProvider"]>): Promise<FitType<T, SolutionProvider>[]>;
+  transfers<T extends PartialBoolean<Transfer>>(fields: T,options?: ByArray<OrderBy["Transfer"], Where["Transfer"]>): Promise<FitType<T, Transfer>[]>;
+  twins<T extends PartialBoolean<Twin>>(fields: T, options?: ByArray<OrderBy["Twin"], Where["Twin"]>): Promise<FitType<T, Twin>[]>;
+  uptimeEvents<T extends PartialBoolean<UptimeEvent>>(fields: T,options?: ByArray<OrderBy["UptimeEvent"], Where["UptimeEvent"]>): Promise<FitType<T, UptimeEvent>[]>;
 }

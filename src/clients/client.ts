@@ -16,10 +16,6 @@ export type MergableQuery = {
   [K in keyof _Merge]?: Parameters<_Merge[K]>;
 };
 
-// const LIST_QUERIES_NAMES: string[] = Object.values(LIST_QUERIES);
-// const BY_ID_QUERIES_NAMES: string[] = Object.values(BY_ID_QUERIES);
-// const CONNECTION_QUERIES_NAMES: string[] = Object.values(CONNECTION_QUERIES);
-
 export class TFGridGqlClient extends AbstractClient {
   private readonly __uri: string;
 
@@ -80,7 +76,7 @@ export class TFGridGqlClient extends AbstractClient {
 type NormalizeMerge<T> = {
   [K in keyof T]: K extends keyof ListQueries
     ? ReturnType<ListQueries[K]> extends Promise<Array<infer Q>>
-      ? Q
+      ? Q[]
       : unknown
     : K extends keyof ByIdQueries
     ? ReturnType<ByIdQueries[K]> extends Promise<infer Q>

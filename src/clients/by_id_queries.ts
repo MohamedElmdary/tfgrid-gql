@@ -1,4 +1,4 @@
-import { ID, PartialBoolean } from "../types";
+import { FitType, ID, PartialBoolean } from "../types";
 import type { ListQueries } from "./list_queries";
 
 export const BY_ID_QUERIES = {
@@ -34,12 +34,14 @@ export const BY_ID_QUERIES = {
 export type ByIdQueries = {
   [K in keyof ListQueries as K extends keyof typeof BY_ID_QUERIES
     ? typeof BY_ID_QUERIES[K]
-    : K]: (
-    id: ID,
-    fields: PartialBoolean<
+    : K]: <
+    T extends PartialBoolean<
       ReturnType<ListQueries[K]> extends Promise<Array<infer Q>> ? Q : unknown
     >
+  >(
+    id: ID,
+    fields: T
   ) => ReturnType<ListQueries[K]> extends Promise<Array<infer Q>>
-    ? Promise<Q>
+    ? Promise<FitType<T, Q>>
     : Promise<unknown>;
 };
