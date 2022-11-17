@@ -4,86 +4,110 @@ import { CONNECTION_ENTITY_QUERIES } from "./connection_queries";
 
 export type Variables = { [key: string]: any };
 
-export abstract class AbstractClient {
-  protected abstract _request<T>(
-    query: string,
-    variables: Variables,
-    name: string
-  ): Promise<T>;
+export interface RequestOptions {
+  name: string;
+  query: string;
+  parameters: string[];
+  variables: Variables;
+}
 
-  protected _list<T>(options: __InternalOptions<ByArray<any, any>, T>) {
+export abstract class AbstractClient {
+  protected abstract _request<T>(options: RequestOptions): Promise<T>;
+
+  protected _list<T>(
+    options: __InternalOptions<ByArray<any, any>, T>
+  ): RequestOptions {
     assertHasField(options.fields);
 
     const { name, entity, limit, offset, orderBy, where, fields } = options;
     const query = `
-      query TFGridGqlClient${entity}sQuery(
-        $limit: Int,
-        $offset: Int,
-        $orderBy: [${entity}OrderByInput],
-        $where: ${entity}WhereInput
+      ${name}(
+        limit: $limit${name},
+        offset: $offset${name},
+        orderBy: $orderBy${name},
+        where: $where${name},
       ) {
-        ${name}(
-          limit: $limit,
-          offset: $offset,
-          orderBy: $orderBy,
-          where: $where
-        ) {
-          ${AbstractClient.normalizeFields(fields)}
-        }
+        ${AbstractClient.normalizeFields(fields)}
       }
     `;
-    return this._request<T[]>(
+
+    return {
+      name,
+      parameters: [
+        `$limit${name}: Int`,
+        `$offset${name}: Int`,
+        `$orderBy${name}: [${entity}OrderByInput]`,
+        `$where${name}: ${entity}WhereInput`,
+      ],
       query,
-      {
-        limit,
-        offset,
-        orderBy,
-        where,
+      variables: {
+        [`limit${name}`]: limit,
+        [`offset${name}`]: offset,
+        [`orderBy${name}`]: orderBy,
+        [`where${name}`]: where,
       },
-      name
-    );
+    };
   }
 
-  protected _byId<T>(id: ID, fields: PartialBoolean<T>, name: string) {
+  protected _byId<T>(
+    id: ID,
+    fields: PartialBoolean<T>,
+    name: string
+  ): RequestOptions {
     assertID(id);
     assertHasField(fields);
 
     const query = `
-      query TFGridGqlClientByIdQuery($id: ID!) {
-        ${name}(id: $id) {
-          ${AbstractClient.normalizeFields(fields)}
-        }
+      ${name}(id: $id${name}) {
+        ${AbstractClient.normalizeFields(fields)}
       }
     `;
-    return this._request<T>(query, { id }, name);
+
+    return {
+      name,
+      parameters: [`$id${name}: ID!`],
+      query,
+      variables: { [`id${name}`]: id },
+    };
+    // return this._request<T>(query, { [`id${name}`]: id }, name);
   }
 
   protected _connection<T>(
     fields: PartialBoolean<T>,
     options: any,
     name: string
-  ) {
+  ): RequestOptions {
     assertHasField(fields);
 
     const entity = CONNECTION_ENTITY_QUERIES[name];
+    const parameters = [
+      `$after${name}: String`,
+      `$first${name}: Int`,
+      `$orderBy${name}: [${entity}OrderByInput!]!`,
+      `$where${name}: ${entity}WhereInput`,
+    ];
     const query = `
-      query TFGridGqlClient${entity}ConnectionQuery(
-        $after: String,
-        $first: Int,
-        $orderBy: [${entity}OrderByInput!]!,
-        $where: ${entity}WhereInput
+      ${name}(
+        after: $after${name},
+        first: $first${name},
+        orderBy: $orderBy${name},
+        where: $where${name}
       ) {
-        ${name}(
-          after: $after,
-          first: $first,
-          orderBy: $orderBy,
-          where: $where
-        ) {
-          ${AbstractClient.normalizeFields(fields)}
-        }
+        ${AbstractClient.normalizeFields(fields)}
       }
     `;
-    return this._request<T>(query, options, name);
+
+    return {
+      name,
+      query,
+      parameters,
+      variables: {
+        [`after${name}`]: options.after,
+        [`first${name}`]: options.first,
+        [`orderBy${name}`]: options.orderBy,
+        [`where${name}`]: options.where,
+      },
+    };
   }
 
   private static normalizeFields<T>(fields: PartialBoolean<T>): string {
