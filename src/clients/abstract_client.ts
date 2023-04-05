@@ -36,7 +36,7 @@ export abstract class AbstractClient {
       parameters: [
         `$limit${name}: Int`,
         `$offset${name}: Int`,
-        `$orderBy${name}: [${entity}OrderByInput]`,
+        `$orderBy${name}: [${entity}OrderByInput!]`,
         `$where${name}: ${entity}WhereInput`,
       ],
       query,

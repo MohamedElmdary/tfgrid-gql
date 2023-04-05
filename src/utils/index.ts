@@ -26,19 +26,3 @@ export function assertID(value: any): AssertReturn {
     panic(`Expected a valid [ID] but got [${value}].`);
   }
 }
-
-/**
- * @description
- * Guards
- */
-// export function isNum(value: unknown): value is number {
-//   return typeof value === "number";
-// }
-
-/**
- * @description
- * Helpers
- */
-// export function ifNum(name: string, value: any): string {
-//   return isNum(value) || isNum(+value) ? `${name}:${value}` : "";
-// }
